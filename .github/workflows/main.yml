@@ -27,7 +27,7 @@ jobs:
           cache: 'npm'
 
       # 步骤3：安装项目依赖（npm/yarn/pnpm 三选一，注释掉不用的）
-      - name: Install dependencies (npm)
+      - name: Install dependencies 
         run: npm install
       # - name: Install dependencies (yarn)
       #   run: yarn install
@@ -35,16 +35,16 @@ jobs:
       #   run: pnpm install
 
       # 步骤4：构建 Vue 项目（命令和项目包管理工具对应）
-      - name: Build project (npm)
+      - name: Build project 
         run: npm run build
       # - name: Build project (yarn)
       #   run: yarn build
       # - name: Build project (pnpm)
       #   run: pnpm run build
 
-      # 【可选】步骤5：上传构建后的dist包（方便下载查看，GitHub 保存7天）
-      - name: Upload build artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: vue-dist
-          path: dist/ # 构建产物目录，Vue-CLI/Vite 默认都是dist
+      # # 【可选】步骤5：上传构建后的dist包（方便下载查看，GitHub 保存7天）
+      # - name: Upload build artifact
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: vue-dist
+      #     path: dist/ # 构建产物目录，Vue-CLI/Vite 默认都是dist
