@@ -1,1 +1,50 @@
+# 工作流名称，GitHub 页面显示用
+name: Vue Project Build
+# 触发条件：main/master 分支推代码、PR 合并到主分支时执行
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
 
+# 执行的任务
+jobs:
+  build:
+    # 运行的服务器环境（Ubuntu 最新版，GitHub 提供）
+    runs-on: ubuntu-latest
+    # 任务步骤
+    steps:
+      # 步骤1：拉取当前仓库代码到服务器
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 步骤2：配置 Node.js 环境（指定版本，建议和项目开发版一致，如18/20）
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          # 缓存 npm 依赖，加速下次构建（关键优化）
+          cache: 'npm'
+
+      # 步骤3：安装项目依赖（npm/yarn/pnpm 三选一，注释掉不用的）
+      - name: Install dependencies (npm)
+        run: npm install
+      # - name: Install dependencies (yarn)
+      #   run: yarn install
+      # - name: Install dependencies (pnpm)
+      #   run: pnpm install
+
+      # 步骤4：构建 Vue 项目（命令和项目包管理工具对应）
+      - name: Build project (npm)
+        run: npm run build
+      # - name: Build project (yarn)
+      #   run: yarn build
+      # - name: Build project (pnpm)
+      #   run: pnpm run build
+
+      # 【可选】步骤5：上传构建后的dist包（方便下载查看，GitHub 保存7天）
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: vue-dist
+          path: dist/ # 构建产物目录，Vue-CLI/Vite 默认都是dist
